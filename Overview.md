@@ -1,5 +1,28 @@
 # Annual overview
 
+
+## Missing Photos 
+
+```dataview
+TABLE WITHOUT ID
+  link(RegistrationNumber) AS RegistrationNumber,
+  DescriptionOfGift AS Gift,
+  ("![img|100](" + LinkToPhoto +")") as Photo
+FROM "gifts" 
+WHERE LinkToPhoto
+``` 
+
+## Missing Photos 
+
+```dataview
+TABLE WITHOUT ID
+  link(RegistrationNumber) AS RegistrationNumber,
+  NameOfMEP AS Name,
+  link(LinkToPhoto) AS Photo
+FROM "gifts" 
+WHERE !LinkToPhoto
+``` 
+
 ## ByGifts 
 
 ```dataview
@@ -8,18 +31,6 @@ TABLE WITHOUT ID
   giftCount as Gifts
 FROM "gifts" 
 GROUP BY NameOfMEP
-FLATTEN length(rows) as giftCount
-SORT giftCount DESC
-``` 
-
-## By Donor
-
-```dataview
-TABLE WITHOUT ID
-  NameOfDonor AS Name,
-  giftCount as Gifts
-FROM "gifts" 
-GROUP BY NameOfDonor
 FLATTEN length(rows) as giftCount
 SORT giftCount DESC
 ``` 

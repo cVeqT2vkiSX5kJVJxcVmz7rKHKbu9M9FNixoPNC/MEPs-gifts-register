@@ -1,7 +1,21 @@
 import pandas as pd
 import numpy as np
 import os
+import re
+
+import PyPDF2
+from urllib.parse import quote
+
 import pprint
+
+def get_file_basename(file_path):
+    # Get the base name of the file (including extension)
+    base_name_with_extension = os.path.basename(file_path)
+
+    # Split the base name and extension
+    base_name, _ = os.path.splitext(base_name_with_extension)
+
+    return base_name
 
 def clean_text(text):
     """
@@ -77,19 +91,19 @@ def load_excel_into_dataframe(file_path):
         # Remove rows with multiple NaN values
         df = df[~rows_skip]
 
-        """
-        # Clean text fields to remove line breaks
-        for col in df.select_dtypes(include=['object'], exclude=['float64','int64','datetime64', 'datetime', 'timedelta']).columns:
-            pprint.pp(col)
-            df[col] = df[col].apply(clean_text)
-        """
-
 
         # Explicitly convert known datetime columns from object to datetime
         datetime_columns = ['DateOfReception', 'DateOfNotification']  # Update with your actual datetime column names
         for col in datetime_columns:
             df[col] = pd.to_datetime(df[col], errors='coerce')  # Converts to datetime, making invalid parsing 'NaT'
+        
+        # Regular expression to match the ID pattern
+        # Adapt this pattern to match your specific ID format within the RegistrationNumber column
+        pattern = r'G(\d+)[\-_]\d\d'
 
+        # Extract the ID into a new column
+        # The extract method applies the regular expression and captures the first matching group
+        df['Id'] = df['RegistrationNumber'].str.extract(pattern, expand=False)
 
         
         # Clean text fields and format datetime fields
@@ -153,6 +167,7 @@ def generate_markdown_gifts(row, output_directory):
         file.write(f"From: {row['NameOfDonor']}\n")
     
     print(f"File '{filename}' has been created in {year_directory}.")
+
 def generate_markdown_for_column_values(unique_values, column_name, df, output_directory):
     """
     Generates Markdown files for each unique value in a specified column,
@@ -174,9 +189,9 @@ def generate_markdown_for_column_values(unique_values, column_name, df, output_d
             file.write(f"# {value}\n\n")
             file.write('\n')
         
-        print(f"Markdown file created for {value} in {column_name}")
+        print(f"Markdown file created for \"{filename}\" in {column_name}")
 
-def process_excel_files(directory_path, output_directory):
+def process_excel_files(directory_path, output_directory, pdf_urls=None):
     """
     Processes all Excel files in the given directory, generating Markdown files.
     
@@ -185,12 +200,24 @@ def process_excel_files(directory_path, output_directory):
     - output_directory: str, the directory where Markdown files will be saved.
     """
     for filename in os.listdir(directory_path):
+
+        basename = get_file_basename(filename)
         if filename.endswith('.xlsx'):
+
             file_path = os.path.join(directory_path, filename)
             print(f"Processing {filename}...")
 
             df = load_excel_into_dataframe(file_path)
             if not df.empty:
+
+                if basename in pdf_urls:
+                    photo_links = pdf_urls[basename]
+                    print(f"Processing {len(photo_links)}...")
+                    print(f"Processing {len(df)}...")
+
+                    df = df.drop(columns=['LinkToPhoto'])
+                    df = df.merge(photo_links, left_on='Id', right_on='Id', suffixes=('_xlsx', '_pdf'))
+
                 # Generate the gifts markdown files
                 for index, row in df.iterrows():
                     generate_markdown_gifts(row, output_directory)
@@ -200,22 +227,94 @@ def process_excel_files(directory_path, output_directory):
                 output_directory_mep = 'meps'  # Update this path
                 generate_markdown_for_column_values(unique_meps, 'NameOfMEP', df, output_directory_mep)
 
-                # Generate the MEPs markdown files via NameOfDonor
+                # Generate the Donors markdown files via NameOfDonor
                 unique_donors = df['NameOfDonor'].dropna().unique()
                 output_directory_donor = 'donors'  # Update this path
                 generate_markdown_for_column_values(unique_donors, 'NameOfDonor', df, output_directory_donor)
 
-
-                # Generate the Donors markdown files
-
             else:
                 print(f"Skipping {filename} due to loading issues.")
 
+# Function to apply multiple regex patterns and return the first match
+def extract_id(url):
+    # List of regex patterns to try
+    patterns = [
+        r'G(\d+)[_\-]\d\d',
+        r'G(\d+)',
+        r'(\d+)[_\-]\d\d',
+        r'(\d+)\.jpg'
+    ]
+    # Try each pattern until a match is found
+    for pattern in patterns:
+        match = re.search(pattern, url, flags=re.IGNORECASE)
+        if match:
+            return match.group(1)  # Return the first matching group
+
+    return None  # No match found
+
+def extract_urls_from_pdf(pdf_path):
+    urls = []
+
+    pdfFile = PyPDF2.PdfReader(pdf_path)
+    pages = len(pdfFile.pages)
+    key = '/Annots'
+    uri = '/URI'
+    ank = '/A'
+
+    for page_number in range(pages):
+        pageSliced = pdfFile.pages[page_number]
+        pageObject = pageSliced.get_object()
+        if key in pageObject.keys():
+            ann = pageObject[key]
+            for a in ann:
+                u = a.get_object()
+                if uri in u[ank].keys():
+                    link = u[ank][uri]
+                    encoded_uri = quote(link, safe='#:/?&=')
+                    urls.append(encoded_uri)
+
+    return urls
+    
+def process_pdf_files(directory_path):
+    """
+    Processes all Excel files in the given directory, generating Markdown files.
+    
+    Parameters:
+    - directory_path: str, the path to the directory containing Excel files.
+    - output_directory: str, the directory where Markdown files will be saved.
+    """
+    pdf_urls = {}
+    for filename in os.listdir(directory_path):
+
+        basename = get_file_basename(filename)
+        if filename.endswith('.pdf'):
+            file_path = os.path.join(directory_path, filename)
+            print(f"Processing {filename}...")
+
+            urls = extract_urls_from_pdf(file_path)
+    
+            urls_series = pd.Series(urls)
+            # Apply the function to each URL
+            ids_series = urls_series.apply(extract_id)
+            
+            df = pd.DataFrame({'Id': ids_series, 'LinkToPhoto': urls_series})
+            #print(df.to_string())
+            # if ids1 and ids2 and ids3 are []
+            #   take ids4
+
+            pdf_urls[basename] = df
+
+    return pdf_urls
+
+
 if __name__ == "__main__":
     # Specify the directory containing Excel files
-    directory_path = 'gifts_register/'  # Update this path
+    input_path = 'gifts_register/'  # Update this path
     # Specify the output directory for Markdown files
     output_directory = 'gifts/'  # Update this path
 
-    process_excel_files(directory_path, output_directory)
+    pdf_urls = process_pdf_files(input_path)
+    #print(pdf_urls.keys())
+
+    process_excel_files(input_path, output_directory, pdf_urls)
     print("All files have been processed.")
