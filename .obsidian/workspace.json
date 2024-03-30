@@ -1,0 +1,248 @@
+{
+  "main": {
+    "id": "de99fbc0ec18191f",
+    "type": "split",
+    "children": [
+      {
+        "id": "ab7013425f7c6caf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "567b05ea13e5b3f1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Overview.md",
+                "mode": "source",
+                "source": true
+              }
+            },
+            "group": "cab392a7c27b2e3c"
+          },
+          {
+            "id": "f667b774fddd9c1f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "gifts/2019/G67-19.md",
+                "mode": "source",
+                "source": true
+              }
+            },
+            "group": "59f2333fda1c64dc"
+          }
+        ]
+      },
+      {
+        "id": "f56ce967e10f3d0f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6314510e1f926611",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Overview.md",
+                "mode": "preview",
+                "source": false
+              }
+            },
+            "group": "cab392a7c27b2e3c"
+          },
+          {
+            "id": "ab0bd7bcc423b8b6",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "gifts/2019/G67-19.md",
+                "options": {
+                  "collapse-filter": false,
+                  "search": "",
+                  "localJumps": 3,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": true,
+                  "colorGroups": [],
+                  "collapse-display": true,
+                  "showArrow": false,
+                  "textFadeMultiplier": 0,
+                  "nodeSizeMultiplier": 1,
+                  "lineSizeMultiplier": 1,
+                  "collapse-forces": true,
+                  "centerStrength": 0.518713248970312,
+                  "repelStrength": 10,
+                  "linkStrength": 1,
+                  "linkDistance": 250,
+                  "scale": 0.6666666666666666,
+                  "close": true
+                }
+              }
+            },
+            "group": "59f2333fda1c64dc"
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6f582d1c61019036",
+    "type": "split",
+    "children": [
+      {
+        "id": "5b431dd12a86760e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f1406389fe580671",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "22c7154e58532c2d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "adc7bb3b1f7e32e3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 231.5
+  },
+  "right": {
+    "id": "e5ab113304b21cce",
+    "type": "split",
+    "children": [
+      {
+        "id": "765f0ba1a95804a8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "929bea37f71af218",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Overview.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "895eaf8a17ac3d3c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Overview.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b25170649c95a740",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "4a38c5b151c2b4c4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Overview.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "567b05ea13e5b3f1",
+  "lastOpenFiles": [
+    "README.md",
+    "Readme.md",
+    "gifts/2019/G67-19.md",
+    "meps/Eduard KUKAN.md",
+    "Overview.md",
+    "donors/Ali Ahmeti, DPA Political leader Macedonia.md",
+    "donors/National Assembly Bosnia Herzegovina.md",
+    "gifts/2019/G57-19.md",
+    "donors/Parliament of Japan.md",
+    "donors/Speaker of the National Assembly of Angola.md",
+    "donors/Indian Parliament.md",
+    "donors/Vice Speaker of the Shura Council of the Kingdom of Saudi Arabia.md",
+    "donors/Taiwan.md",
+    "donors/Artist, Mr V Grech.md",
+    "donors/Mayor of Stella.md",
+    "donors/King of Jordan.md",
+    "donors/Fadli Zon (Chairperson of the Committee for Inter- parliamentary cooperation, The House of representatives of the Republic of Indonesia).md",
+    "donors/Agustina Wilujeng Pramestuti (Member of the Indonesian Delegation).md",
+    "donors/Secretary of the National Assembly of People's Power (ANPP) and of the Council of State of the Republic of Cuba.md",
+    "donors/Speaker of the Parliament of Tanzania.md",
+    "donors/Scientist’s Gift Organization.md",
+    "donors/Shura Council.md",
+    "donors/Public Investment Fund.md",
+    "donors/Bulgarian National Theater.md",
+    "donors/Ambassador of Indonesia.md",
+    "donors/Vice-President, House of Councillors, Japan.md",
+    "meps",
+    "donors",
+    "MEPs"
+  ]
+}
